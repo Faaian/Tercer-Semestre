@@ -1,7 +1,5 @@
 SELECT * FROM proy_movilizacion;
 
-TRUNCATE TABLE proy_movilizacion;
-
 DECLARE
     v_id_min NUMBER(3);
     v_id_max NUMBER(3);
@@ -18,6 +16,8 @@ DECLARE
     v_valor_movil_extra int;
     v_valor_total INT;
 BEGIN
+    
+    EXECUTE IMMEDIATE 'TRUNCATE TABLE proy_movilizacion';
     
     SELECT MAX(id_emp), MIN(id_emp)
     INTO v_id_max, v_id_min
@@ -46,18 +46,19 @@ BEGIN
         v_porc_movil_normal := TRUNC(v_sueldo / 100000);
         v_valor_movil := (v_sueldo * v_porc_movil_normal)/100;
         
-        IF v_id_comuna = 117
+        CASE
+        WHEN v_id_comuna = 117
             THEN v_valor_movil_extra := 20000;
-        ELSIF v_id_comuna = 118
+        WHEN v_id_comuna = 118
             THEN v_valor_movil_extra := 25000;
-        ELSIF v_id_comuna = 119
+        WHEN v_id_comuna = 119
             THEN v_valor_movil_extra := 30000;
-        ELSIF v_id_comuna = 120
+        WHEN v_id_comuna = 120
             THEN v_valor_movil_extra := 35000;
-        ELSIF v_id_comuna = 121
+        WHEN v_id_comuna = 121
             THEN v_valor_movil_extra := 40000;
         ELSE v_valor_movil_extra := 0;
-        END IF;
+        END CASE;
         
         v_valor_total := v_valor_movil + v_valor_movil_extra;
         
@@ -66,4 +67,5 @@ BEGIN
         
         contador := contador + 10;
     END LOOP;
+    EXECUTE IMMEDIATE 'SELECT * FROM proy_movilizacion';
 END;
