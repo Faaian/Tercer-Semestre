@@ -36,7 +36,6 @@ DECLARE
         ;
         
         v_informe r_informe;
-        v_cliente r_informe;
 BEGIN
     OPEN cur_vendedor;
     OPEN cur_cliente;
@@ -60,4 +59,7 @@ BEGIN
         ||TO_CHAR(RPAD(v_informe.sueldo, 6),'FML999g999g999'));
 
     END LOOP;
+    
+    CLOSE cur_cliente;
+    CLOSE cur_vendedor;
 END;
